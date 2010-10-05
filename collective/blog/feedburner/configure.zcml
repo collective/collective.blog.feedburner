@@ -1,0 +1,43 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.blog.feedburner">
+
+  <five:registerPackage package="." />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Feedburner"
+      directory="profiles/default"
+      description="Collective.blog.feedburner installation profile"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <browser:viewlet
+    name="collective.blog.feeds.feedsviewlet"
+    manager="plone.app.layout.viewlets.interfaces.IHtmlHeadLinks"
+    class=".viewlets.FeedsViewlet"
+    permission="zope2.View"
+    layer=".interfaces.IThemeSpecific"
+    />
+
+  <browser:page
+      for="*"
+      name="feedburner_view"
+      class=".feedburner_view.FeedburnerView"
+      permission="zope.Public"
+      allowed_interface=".interfaces.IFeedburnerView"
+      />
+
+  <browser:page
+      for="*"
+      name="feed_edit_form"
+      template="feed_edit_form.pt"
+      permission="zope.Public"
+      />
+
+
+</configure>
