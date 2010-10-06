@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1dev'
+version = '0.2dev'
 
 setup(name='collective.blog.feedburner',
       version=version,
@@ -13,9 +13,9 @@ setup(name='collective.blog.feedburner',
         "Programming Language :: Python",
         ],
       keywords='',
-      author='',
-      author_email='',
-      url='',
+      author='Six Feet Up, Inc.',
+      author_email='info@sixfeetup.com',
+      url='http://www.sixfeetup.com',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective', 'collective.blog'],
