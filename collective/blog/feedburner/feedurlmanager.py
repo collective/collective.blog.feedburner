@@ -16,6 +16,8 @@ class FeedManagerAdapter(object):
     def getFeedURL(self):
         return self.annotations[FEED_MANAGER_PROPERTIES]
 
-    def setFeedURL(self, use, data):
-        self.annotations[FEED_MANAGER_PROPERTIES]['use_feedburner'] = use
+    def setFeedURL(self, usefs, usefb, data):
+        self.annotations[FEED_MANAGER_PROPERTIES]['use_fastsyndication'] =\
+                usefs
+        self.annotations[FEED_MANAGER_PROPERTIES]['use_feedburner'] = usefb
         self.annotations[FEED_MANAGER_PROPERTIES]['feedburnerurl'] = data

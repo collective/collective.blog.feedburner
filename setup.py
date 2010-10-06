@@ -23,9 +23,12 @@ setup(name='collective.blog.feedburner',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'collective.blog.feeds'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
