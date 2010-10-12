@@ -10,21 +10,29 @@ class FeedburnerView(BrowserView):
     """
     implements(IFeedburnerView)
 
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        try:
+            self.adapter = FeedManagerAdapter(self.context)
+        except TypeError:
+            # Could not adapt
+            self.adapter = None
+
     def getFeedBurnerProperties(self):
         """ Returns the locally defined feedburner for the item """
-        adapter = FeedManagerAdapter(self.context)
-        dico = adapter.getFeedURL()
-        return dico
+        if self.adapter:
+            return self.adapter.getFeedURL()
+        return {}
 
     def setFeedBurnerProperties(self):
         """ Saves the locally defined properties for a Slideshow """
         status = IStatusMessage(self.request)
-        adapter = FeedManagerAdapter(self.context)
         form = self.request.form
         feedburnerurl = form.get('feedburnerurl', '')
         use_feedburner = form.get('use_feedburner', False)
         use_fastsyndication = form.get('use_fastsyndication', False)
-        adapter.setFeedURL(use_fastsyndication,
+        self.adapter.setFeedURL(use_fastsyndication,
                            use_feedburner,
                            feedburnerurl)
         status.addStatusMessage(
