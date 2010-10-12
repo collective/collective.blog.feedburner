@@ -20,24 +20,14 @@ class FeedburnerView(BrowserView):
         """ Saves the locally defined properties for a Slideshow """
         status = IStatusMessage(self.request)
         adapter = FeedManagerAdapter(self.context)
-        feedburnerurl, use_feedburner, use_fastsyndication = '', '', ''
-        if self.request.form.has_key('feedburnerurl'):
-            feedburnerurl = self.request.form['feedburnerurl']
-        if self.request.form.has_key('use_feedburner'):
-            use_feedburner = self.request.form['use_feedburner']
-        else:
-            use_feedburner = 'no'
-        if self.request.form.has_key('use_fastsyndication'):
-            use_fastsyndication = self.request.form['use_fastsyndication']
-        else:
-            use_fastsyndication = 'no'
-        if use_feedburner != 'yes' or feedburnerurl:
-            adapter.setFeedURL(use_fastsyndication, use_feedburner,
-                               feedburnerurl)
-            status.addStatusMessage(
+        form = self.request.form
+        feedburnerurl = form.get('feedburnerurl', '')
+        use_feedburner = form.get('use_feedburner', False)
+        use_fastsyndication = form.get('use_fastsyndication', False)
+        adapter.setFeedURL(use_fastsyndication,
+                           use_feedburner,
+                           feedburnerurl)
+        status.addStatusMessage(
                 'Local feedburner properties have been saved',
                 type='info')
-        else:
-            status.addStatusMessage('Missing properties',
-                                type='info')
-        self.request.response.redirect(self.request.URL.split('@@')[0])
+        self.request.response.redirect(self.context.absolute_url())

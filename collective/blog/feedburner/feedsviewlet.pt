@@ -1,14 +1,14 @@
 <tal:def define="feed context/@@feedburner_view/getFeedBurnerProperties;
-                 use_feedburner python:feed.has_key('use_feedburner') and feed['use_feedburner'] or 'no';
-                 use_fastsyndication python:feed.has_key('use_fastsyndication') and feed['use_fastsyndication'] or 'no';
-                 feedburnerurl python:feed.has_key('feedburnerurl') and feed['feedburnerurl'] or '';">
-<tal:cond condition="python:use_feedburner=='yes'">
+                 use_feedburner python:feed.get('use_feedburner', False);
+                 use_fastsyndication python:feed.get('use_fastsyndication', False);
+                 feedburnerurl python:feed.get('feedburnerurl', '');">
+<tal:cond condition="use_feedburner">
 <link rel="alternate" href="" title=""
       type="application/rss+xml"
       tal:attributes="href feedburnerurl;
                       title context/title"/>
 </tal:cond>
-<tal:cond condition="python:use_feedburner=='no' and use_fastsyndication == 'yes'">
+<tal:cond condition="python:not use_feedburner and use_fastsyndication">
 <link rel="alternate" href="" title="Atom 2005"
       type="application/atom+xml"
       tal:attributes="href string:${context/absolute_url}/atom.xml"

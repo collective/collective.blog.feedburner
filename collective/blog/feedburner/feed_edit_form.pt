@@ -30,13 +30,28 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
             <div tal:define="feed context/@@feedburner_view/getFeedBurnerProperties;
-                use_feedburner python:feed.has_key('use_feedburner') and feed['use_feedburner'] or '';
-                use_fastsyndication python:feed.has_key('use_fastsyndication') and feed['use_fastsyndication'] or '';
-                 feedburnerurl python:feed.has_key('feedburnerurl') and feed['feedburnerurl'] or '';">
-                <form action="./@@feedburner_view/setFeedBurnerProperties" method="get">
+                             use_feedburner python:feed.get('use_feedburner', False);
+                             use_fastsyndication python:feed.get('use_fastsyndication', False);
+                             feedburnerurl python:feed.get('feedburnerurl', '');">
+              <form action="./@@feedburner_view/setFeedBurnerProperties" 
+                    method="get">
                     <div id="feed-edit-property">
-                        <p><input type="checkbox" name="use_fastsyndication" value="yes" tal:attributes="checked python:use_fastsyndication=='yes' and 1 or 0"/>  Use FastSyndication to manage feeds</p>                             <p><input type="checkbox" name="use_feedburner" value="yes" tal:attributes="checked python:use_feedburner=='yes' and 1 or 0"/>  Use a redirection URL</p>
-                        <p>Redirection URL (will not be effective unless the redirection box is checked):  <input type="text" size="20" name="feedburnerurl" tal:attributes="value feedburnerurl" /></p>
+                        <p><input type="checkbox" 
+                                  name="use_fastsyndication" 
+                                  tal:define="checked python:use_fastsyndication and 1 or 0"
+                                  tal:attributes="checked checked;
+                                                  value checked"/>Use FastSyndication to manage feeds</p>                             
+                        <p><input type="checkbox" 
+                                  name="use_feedburner" 
+                                  tal:define="checked python:use_feedburner and 1 or 0"
+                                  tal:attributes="checked checked;
+                                                  value checked"/>Use a redirection URL</p>
+                        <p>Redirection URL (will not be effective unless the redirection box is checked):
+                        <br />
+                        <input type="text" 
+                               size="50"
+                               name="feedburnerurl"
+                               tal:attributes="value feedburnerurl" /></p>
                     </div>
                     <div class="visualClear"><!-- --></div><br />
                     <input type="submit" name="submit" value="Save">
